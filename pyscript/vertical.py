@@ -1,12 +1,9 @@
-from . import Shape, Point
+from . import CompoundShapes, Point
 
 
-class VerticalShapes(Shape):
+class VerticalShapes(CompoundShapes):
 
-    def __init__(self, *shapes):
-        self._shapes = shapes
-
-    def _get_postscript(self, center):
+    def _get_shapes_postscript(self, center):
         shape_exports = []
         current_y = center.y - self._get_height() / 2
         for shape in self._shapes:
@@ -16,7 +13,7 @@ class VerticalShapes(Shape):
                 shape._get_postscript(Point(center.x, current_y))
             )
             current_y += half_shape_height
-        return "\n".join(shape_exports)
+        return shape_exports
 
     def _get_width(self):
         return max((shape._get_width() for shape in self._shapes), default=0)

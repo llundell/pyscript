@@ -1,12 +1,9 @@
-from . import Shape, Point
+from . import CompoundShapes, Point
 
 
-class HorizontalShapes(Shape):
+class HorizontalShapes(CompoundShapes):
 
-    def __init__(self, *shapes):
-        self._shapes = shapes
-
-    def _get_postscript(self, center):
+    def _get_shapes_postscript(self, center):
         shape_exports = []
         current_x = center.x - self._get_width() / 2
         for shape in self._shapes:
@@ -16,7 +13,7 @@ class HorizontalShapes(Shape):
                 shape._get_postscript(Point(current_x, center.y))
             )
             current_x += half_shape_width
-        return "\n".join(shape_exports)
+        return shape_exports
 
     def _get_width(self):
         return sum(shape._get_width() for shape in self._shapes)
